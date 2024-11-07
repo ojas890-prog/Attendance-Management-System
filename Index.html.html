@@ -1,0 +1,433 @@
+<html>
+<head>
+<title>Attendance Management System</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<style>
+ 	body 
+	{
+		font-family: Arial, sans-serif;
+            		background-color: #f4f4f9;
+            		margin: 0;
+            		padding: 0;
+        	}
+        	.container 
+	{
+            		max-width: 600px;
+            		margin: 50px auto;
+            		background-color: #fff;
+            		padding: 20px;
+            		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            		border-radius: 10px;
+        	}
+        	h1 
+	{
+            		text-align: center;
+            		color: #333;
+        	}
+        	.class-section 
+	{
+            		margin-bottom: 20px;
+            		display: flex;
+            		justify-content: space-around;
+        	}
+        	.class-section button 
+	{
+            		padding: 15px 30px;
+            		font-size: 18px;
+            		font-weight: bold;
+            		border: none;
+            		border-radius: 5px;
+            		cursor: pointer;
+            		transition: background-color 0.3s;
+        	}
+        	.tyco-a-btn 
+	{
+            		background-color: #ff7043;
+            		color: #fff;
+        	}
+        	.tyco-a-btn:hover 
+	{
+            		background-color: #e64a19;
+        	}
+        	.tyco-b-btn 
+	{
+            		background-color: #29b6f6;
+            		color: #fff;
+        	}
+        	.tyco-b-btn:hover 
+	{
+           	 	background-color: #0288d1;
+        	}
+        	.subject-buttons 
+	{
+            		display: none;
+            		margin: 20px 0;
+            		text-align: center;
+        	}
+        	.subject-buttons button 
+	{
+            		margin: 5px;
+            		padding: 10px;
+            		font-size: 16px;
+            		background-color: #007bff;
+            		color: #fff;
+            		border: none;
+            		cursor: pointer;
+        	}
+        	.subject-buttons button:hover 
+	{
+            		background-color: #0056b3;
+        	}
+        	.selected-subject 
+	{
+            		text-align: center;
+            		font-size: 18px;
+            		color: #333;
+            		margin-top: 15px;
+            		font-weight: bold;
+	}
+        	.date-time-section 
+	{
+            		display: none;
+            		margin: 20px 0;
+            		text-align: center;
+        	}
+        	.date-time-section input 
+	{
+            		padding: 8px;
+            		font-size: 16px;
+            		margin: 5px;
+            		border: 1px solid #ddd;
+           		border-radius: 5px;
+            		width: 150px;
+        	}
+        	.date-time-section label 
+	{
+            		font-size: 16px;
+            		margin: 0 10px 0 0;
+            		font-weight: bold;
+            		color: #555;
+        	}
+        	#startButton 
+	{
+            		display: none;
+            		padding: 10px;
+            		font-size: 16px;
+            		background-color: #28a745;
+            		color: #fff;
+            		border: none;
+            		border-radius: 5px;
+            		cursor: pointer;
+            		margin-top: 10px;
+        	}
+        	#startButton:hover 
+	{
+            		background-color: #218838;
+        	}
+        	.student-input-section 
+	{
+            		display: none;
+            		margin: 20px 0;
+            		text-align: center;
+        	}
+        	.student-input-section input 
+	{
+            		padding: 8px;
+            		font-size: 16px;
+            		margin: 5px;
+            		border: 1px solid #ddd;
+            		border-radius: 5px;
+            		width: 150px;
+        	}
+        	.student-input-section button 
+	{
+            		padding: 10px;
+            		font-size: 16px;
+            		margin: 5px;
+            		background-color: #007bff;
+           		color: #fff;
+            		border: none;
+            		border-radius: 5px;
+            		cursor: pointer;
+        	}
+        	.student-input-section button:hover 
+	{
+            		background-color: #0056b3;
+        	}
+        	table 
+	{
+           	 	width: 100%;
+            		border-collapse: collapse;
+            		margin-top: 20px;
+            		display: none;
+       	}
+        	th, td 
+	{
+            		padding: 10px;
+            		text-align: left;
+            		border: 1px solid #ddd;
+            		border-radius: 5px;
+        	}
+        	th 
+	{
+           	 	background-color: #007bff;
+            		color: white;
+        	}
+        	td 
+	{
+            		background-color: #f9f9f9;
+        	}
+        	.mark-present 
+	{
+            		padding: 5px 10px;
+            		background-color: #28a745;
+            		color: white;
+           	 	border: none;
+            		border-radius: 5px;
+            		cursor: pointer;
+        	}
+        	.mark-present:hover 
+	{
+            		background-color: #218838;
+        	}
+        	.attendance-summary 
+	{
+            		margin-top: 20px;
+            		text-align: center;
+            		font-size: 18px;
+           		 font-weight: bold;
+            		color: #333;
+            		display: none;
+        	}
+        	.present-status
+	{
+            		font-weight: bold;
+            		color: green;
+        	}
+        	.absent-status 
+	{
+            		font-weight: bold;
+            		color: red;
+        	}
+        	#submitButton 
+	{
+            		display: none;
+           	 	margin-top: 20px;
+            		padding: 10px 20px;
+            		font-size: 18px;
+            		background-color: #007bff;
+            		color: #fff;
+            		border: none;
+            		border-radius: 5px;
+            		cursor: pointer;
+            		width: 100%;
+        	}
+        	#submitButton:hover 
+	{
+            		background-color: #0056b3;
+        	}
+</style>
+</head>
+<body>
+<div class="container">
+        	<h1>Attendance Management System</h1>
+        	<div class="class-section">
+            		<button class="tyco-a-btn" onclick="selectClass('TYCO A')">TYCO A</button>
+            		<button class="tyco-b-btn" onclick="selectClass('TYCO B')">TYCO B</button>
+        	</div>
+
+	<div class="subject-buttons" id="subjectButtons">
+            		<button onclick="displaySubject('CSS')">CSS</button>
+            		<button onclick="displaySubject('AJP')">AJP</button>
+            		<button onclick="displaySubject('EST')">EST</button>
+            		<button onclick="displaySubject('STE')">STE</button>
+            		<button onclick="displaySubject('OSY')">OSY</button>
+        	</div>
+
+        	<p class="selected-subject" id="selectedSubject"></p>
+
+        	<div class="date-time-section" id="dateTimeSection">
+            		<label for="dateInput">Date:</label>
+            		<input type="date" id="dateInput"><br><br>
+            		<label for="startTimeInput">Start</label>
+            		<input type="time" id="startTimeInput" onchange="setEndTime()">
+           	 	<label for="endTimeInput">End</label>
+            		<input type="time" id="endTimeInput">
+        	</div>
+
+        	<center><button id="startButton" onclick="showStudentInput()">Start</button></center>
+
+        	<div class="student-input-section" id="studentInputSection">
+            		<input type="text" id="studentName" placeholder="Add Student Name">
+            		<button onclick="addStudent()">Add</button>
+           	 	<input type="text" id="searchStudent" placeholder="Search Student" oninput="searchStudent()">
+        	</div>
+
+        	<table id="attendanceTable">
+            	<thead>
+                	<tr>
+                    		<th>Student Name</th>
+                    		<th>Attendance Status</th>
+                    		<th>Action</th>
+                	</tr>
+            	</thead>
+            	<tbody id="attendanceBody"></tbody>
+        	</table>
+
+        	<div class="attendance-summary" id="attendanceSummary">
+            		Total Students: <span id="totalStudents">0</span> | 
+            		Present: <span id="presentCount">0</span> | 
+            		Absent: <span id="absentCount">0</span>
+        	</div>
+
+        	<button id="submitButton" onclick="submitAttendance()">Submit</button>
+
+        	<script>
+            		let currentClass = '';
+            		let addedStudents = 
+		{
+            	    		'TYCO A': ['John Doe', 'Jane Smith', 'Sam Wilson', 'Sara Johnson', 'Emily Davis', 'Michael Brown'],
+                			'TYCO B': ['Alice Brown', 'Bob Green', 'Charlie White', 'Daisy Black', 'Olivia King', 'Liam Johnson']
+            		};
+		function selectClass(className) 
+		{
+                			currentClass = className;
+                			document.getElementById('subjectButtons').style.display = 'block';
+                			document.getElementById('dateTimeSection').style.display = 'block';
+                			document.getElementById('attendanceTable').style.display = 'none';
+                			document.getElementById('selectedSubject').textContent = '';
+                			resetFields();
+                			hideStudentInput();
+                			populateTable();
+            		}
+		function displaySubject(subject) 
+		{
+                			document.getElementById('selectedSubject').textContent = 'Selected Subject: ' + subject;
+            		}
+		function setEndTime() 
+		{
+                			const startTimeInput = document.getElementById('startTimeInput');
+                			const endTimeInput = document.getElementById('endTimeInput');
+       			if (startTimeInput.value) 
+			{
+                    				const startTime = new Date(`1970-01-01T${startTimeInput.value}:00`);
+                    				const endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
+                    				const endHours = endTime.getHours().toString().padStart(2, '0');
+                    				const endMinutes = endTime.getMinutes().toString().padStart(2, '0');
+                    				endTimeInput.value = `${endHours}:${endMinutes}`;
+                    				document.getElementById('startButton').style.display = 'block';
+                			}
+            		}
+ 		function showStudentInput() 
+		{
+                			document.getElementById('studentInputSection').style.display = 'block';
+                			document.getElementById('attendanceTable').style.display = 'table';
+                			document.getElementById('attendanceSummary').style.display = 'block';
+                			document.getElementById('submitButton').style.display = 'block';
+            		}
+		function resetFields() 
+		{
+                			document.getElementById('dateInput').value = '';
+                			document.getElementById('startTimeInput').value = '';
+                			document.getElementById('endTimeInput').value = '';
+                			document.getElementById('startButton').style.display = 'none';
+            		}
+		function hideStudentInput() 
+		{
+                			document.getElementById('studentInputSection').style.display = 'none';
+                			document.getElementById('attendanceTable').style.display = 'none';
+                			document.getElementById('attendanceSummary').style.display = 'none';
+                			document.getElementById('submitButton').style.display = 'none';
+            		}
+		function populateTable() 
+		{
+                			const tbody = document.getElementById('attendanceBody');
+                			tbody.innerHTML = '';
+                			const students = addedStudents[currentClass] || [];
+                			students.forEach(student => {
+                    			const row = document.createElement('tr');
+                    			row.innerHTML = `<td>${student}</td><td class="absent-status">Absent</td><td><button class="mark-present" onclick="markPresent(this)">Mark Present</button></td>`;
+                    			tbody.appendChild(row);
+                			});
+                			updateSummary();
+            		}
+		function addStudent() 
+		{
+                			const studentName = document.getElementById('studentName').value.trim();
+                			if (studentName) 
+			{
+                    				addedStudents[currentClass].push(studentName);
+                    				populateTable();
+                    				document.getElementById('studentName').value = '';
+                			}
+           	 	}
+ 		function searchStudent() 
+		{
+                			const searchText = document.getElementById('searchStudent').value.toLowerCase();
+                			const rows = document.querySelectorAll('#attendanceBody tr');
+               	 		rows.forEach(row => 
+			{
+                    				const studentName = row.cells[0].textContent.toLowerCase();
+                    				row.style.display = studentName.includes(searchText) ? '' : 'none';
+                			});
+            		}
+		function markPresent(button) 
+		{
+    			const statusCell = button.closest('tr').querySelector('td:nth-child(2)');
+    			if (statusCell.textContent === 'Absent') 
+			{
+        				statusCell.textContent = 'Present';
+        				statusCell.className = 'present-status';
+    			} 
+			else 
+			{
+        				statusCell.textContent = 'Absent';
+        				statusCell.className = 'absent-status';
+    			}
+    			updateSummary();
+		}
+		function updateSummary() 
+		{
+                			const totalStudents = addedStudents[currentClass].length;
+                			const presentCount = document.querySelectorAll('.present-status').length;
+                			document.getElementById('totalStudents').textContent = totalStudents;
+                			document.getElementById('presentCount').textContent = presentCount;
+                			document.getElementById('absentCount').textContent = totalStudents - presentCount;
+            		}
+		function submitAttendance() 
+		{
+                			alert('Attendance Submitted Successfully!');
+                			window.location.href = 'Success.html';
+            		}
+		function saveToExcel() 
+		{
+            			const tableData = [];
+            			const rows = document.querySelectorAll('#attendanceBody tr');
+
+            			const division = currentClass || "Not Selected";
+            			const subject = document.getElementById('selectedSubject').textContent.replace("Selected Subject: ", "") || "Not Selected";
+            			const date = document.getElementById('dateInput').value || "Not Specified";
+            			const startTime = document.getElementById('startTimeInput').value || "Not Specified";
+            			const endTime = document.getElementById('endTimeInput').value || "Not Specified";
+	
+            			tableData.push(['Division', 'Subject', 'Date', 'Start Time', 'End Time', 'Student Name', 'Attendance Status']);
+            			
+			rows.forEach(row => 
+			{
+                				const studentName = row.cells[0].textContent;
+                				const status = row.cells[1].textContent;
+                				tableData.push([division, subject, date, startTime, endTime, studentName, status]);
+            			});
+            			const wb = XLSX.utils.book_new();
+            			const ws = XLSX.utils.aoa_to_sheet(tableData);
+
+            			ws['!cols'] = [{ wch: 10 }, { wch: 15 }, { wch: 15 }, { wch: 10 },{ wch: 10 }, { wch: 20 }, { wch: 15 }];
+
+            			XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+            			XLSX.writeFile(wb, `${division}_Attendance.xlsx`);
+        		}
+        		document.getElementById('submitButton').addEventListener('click', saveToExcel);
+        	</script>
+    	</div>
+</body>
+</html>
